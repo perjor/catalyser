@@ -32,3 +32,27 @@ predictionModel.classify(video).then(predictions => {
 I take the top prediction out of the array and if it includes the word cat, (it mostly finds a type of cat), I will return that it's a cat.
 
 You can test the first iteration here [Catalyser v0.0.1](https://catalyser.jordypereira.be/v-0-0-1)
+
+## Cat basics
+I've searched some articles to get a quick grasp at the meaning of the Cat's tail.  
+Google -> 'Cat tail cues'
+https://www.humanesociety.org/resources/cat-chat-understanding-feline-language
+This article seems to mention a whole bunch of cues.
+https://www.adventurecats.org/pawsome-reads/read-cats-body-language/
+This one has some nice images
+
+## Tensorflow
+### Intro
+I'm going to [watch an intro](https://www.youtube.com/watch?v=Qt3ZABW5lD0&t=0s&index=2&list=PLRqwX-V7Uu6YIeVA3dNxbR9PYj4wV31oQ) to tensorflow js to get a starting point. 
+
+In the first video he explains where Tensorflow comes from. It's a machine learning library in c++. Now thanks to WEBGL we can use the GPU in the browser. 
+2 guys have rewritten it in JS, which is now branded as tensorflow.js. 
+Keras is a layer on top of tensorflow.js that is now part of tensorflowjs. So it has 2 APIs: The core API and the Layers API, which is a bit simpler to use. 
+
+On top of that you have ml5js which is an even more abstracted version of tensorflow.js to get started quickly.
+
+### Basics
+In the second video he went over the basic block of tensorflow, a tensor. A tensor can be any shape from a Scalar (1 number), a vector ( a list) or a matrix (a 2d grid).
+```js
+tf.tensor([2, 2, 2, 2, 3, 4], [1, 2, 3]).print();
+```
