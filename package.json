@@ -1,0 +1,23 @@
+{
+  "name": "catalyser",
+  "version": "1.0.0",
+  "description": "Catalyser is an app to read the emotions of your cat.",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perjor/catalyser.git"
+  },
+  "author": "Jordy Pereira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/perjor/catalyser/issues"
+  },
+  "homepage": "https://github.com/perjor/catalyser#readme",
+  "devDependencies": {
+    "vuepress": "^0.14.8"
+  }
+}
