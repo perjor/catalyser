@@ -143,20 +143,11 @@ function startTesting() {
 
 function startWebcam() {
   if (webcamVideo.style.display === 'inline-block') {
-    console.log('Closed webcam');
-    
-    webcamActive = false;
-    webcamVideo.style.display = 'none';
-    webcamButton.innerHTML = 'Use the webcam';
-    infoBox.innerHTML = 'Closed the webcam';
-    const track = webcamVideo.srcObject.getTracks()[0];
-    track.stop();
+    closeWebcam();
     return false;
   }
   webcamButton.innerHTML = 'Stop the webcam';
 
-  const maxWidth = '640px';
-  const maxHeight = '480px';
   const idealWidth = window.innerWidth - 20;
   const idealHeight = window.innerHeight;
 
@@ -171,17 +162,35 @@ function startWebcam() {
   webcamVideo.width = idealWidth;
   webcamVideo.height = idealHeight;
 
-  if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ audio: false, video: constraints })
-    .then(stream => {
-    console.log('Opened webcam');
-
-      webcamVideo.srcObject = stream;
-      webcamVideo.style.display = 'inline-block';
-      webcamActive = true;
-    })
-    .catch(err => console.log("Webcam error!", err))
+  // If device doesn't support webcam, exit
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    webcamButton.innerHTML = 'Webcam not supported';
+    return false;
   }
+
+  navigator.mediaDevices.getUserMedia({ audio: false, video: constraints })
+  .then(stream => {
+  console.log('Opened webcam');
+
+    if ('srcObject' in video) {
+      video.srcObject = stream;
+    } else {
+      video.src = window.URL.createObjectURL(stream);
+    }
+    webcamVideo.style.display = 'inline-block';
+    webcamActive = true;
+  })
+  .catch(err => console.log("getUserMedia error", err))
+}
+
+function closeWebcam() {
+  console.log('Closed webcam');
+  webcamActive = false;
+  webcamVideo.style.display = 'none';
+  webcamButton.innerHTML = 'Use the webcam';
+  infoBox.innerHTML = 'Closed the webcam';
+  const track = webcamVideo.srcObject.getTracks()[0];
+  track.stop();
 }
 
 function takePictureWithWebcam() {
