@@ -59,13 +59,13 @@ const testAllImages = (array, label) => {
 
 function initializeImages() {
   // Add Training Data
-  tailUp = insertAllImagesIntoRoot('training/tailUp', 10);
-  tailUpCurled = insertAllImagesIntoRoot('training/tailUpCurled', 9);
+  tailUp = insertAllImagesIntoRoot('training/tailUp', 7);
+  tailUpCurled = insertAllImagesIntoRoot('training/tailUpCurled', 5);
   tailFlat = insertAllImagesIntoRoot('training/tailFlat', 5);
   tailFlatCurled = insertAllImagesIntoRoot('training/tailFlatCurled', 4);
-  tailPuffy = insertAllImagesIntoRoot('training/tailPuffy', 3);
-  tailDown = insertAllImagesIntoRoot('training/tailDown', 1);
-  tailDownCurled = insertAllImagesIntoRoot('training/tailDownCurled', 1);
+  tailPuffy = insertAllImagesIntoRoot('training/tailPuffy', 1);
+  // tailDown = insertAllImagesIntoRoot('training/tailDown', 1);
+  // tailDownCurled = insertAllImagesIntoRoot('training/tailDownCurled', 1);
   tailBody = insertAllImagesIntoRoot('training/tailBody', 1);
 
   // Add Test Data
@@ -82,8 +82,8 @@ const addImagesToClassifier = async () => {
   await addAllImages(tailFlat, 'Tail Flat');
   await addAllImages(tailFlatCurled, 'Tail Flat');
   await addAllImages(tailPuffy, 'Tail Puffy');
-  await addAllImages(tailDown, 'Tail Down');
-  await addAllImages(tailDownCurled, 'Tail Down');
+  // await addAllImages(tailDown, 'Tail Down');
+  // await addAllImages(tailDownCurled, 'Tail Down');
   await addAllImages(tailBody, 'Tail Body', imagesAdded);
 }
 
