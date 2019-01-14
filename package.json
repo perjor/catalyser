@@ -2,7 +2,7 @@
   "name": "catalyser",
   "version": "1.0.0",
   "description": "Catalyser is an app to read the emotions of your cat.",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/perjor/catalyser#readme",
   "devDependencies": {
-    "vuepress": "^0.14.8"
+    "vuepress": "^0.14.8",
+    "webpack-cli": "^3.2.1"
+  },
+  "dependencies": {
+    "ml5": "^0.1.3"
   }
 }
