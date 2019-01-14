@@ -159,3 +159,14 @@ img.addEventListener('load', (e) => {
   resolve('done');
 })
 ```
+
+## Reworking the data
+The data you put into your app is very important. That's why I'm going to refactor all my tails to contain full cat images. I'm also going to seperate the checks. The first check will be the position of the tail, up, down / flat or against the body. After that I'll check the puffiness of the tail.
+
+I've got a training database of 50 cat images. I think that's a good start.
+
+> TODO
+> Loading Bar behind the title
+> Replace training data with full cats
+> Format Testing images
+> Save and load models

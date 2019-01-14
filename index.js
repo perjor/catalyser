@@ -16,32 +16,17 @@ const trainingObject = [
   {
     name: 'tailUp',
     label: 'Tail Up',
-    size: 7,
-  },
-  {
-    name: 'tailUpCurled',
-    label: 'Tail Up Curled',
-    size: 4,
+    size: 27,
   },
   {
     name: 'tailFlat',
     label: 'Tail Flat',
-    size: 7,
-  },
-  {
-    name: 'tailFlatCurled',
-    label: 'Tail Flat Curled',
-    size: 4,
-  },
-  {
-    name: 'tailPuffy',
-    label: 'Tail Puffy',
-    size: 3,
+    size: 19,
   },
   {
     name: 'tailBody',
     label: 'Tail Body',
-    size: 1,
+    size: 4,
   },
 ];
 
@@ -51,27 +36,12 @@ const testingObject = [
   {
     name: 'testTailUp',
     label: 'Tail Up',
-    size: 2,
-  },
-  {
-    name: 'testTailUpCurled',
-    label: 'Tail Up Curled',
-    size: 2,
+    size: 4,
   },
   {
     name: 'testTailFlat',
     label: 'Tail Flat',
-    size: 2,
-  },
-  {
-    name: 'testTailFlatCurled',
-    label: 'Tail Flat Curled',
-    size: 1,
-  },
-  {
-    name: 'testTailPuffy',
-    label: 'Tail Puffy',
-    size: 2,
+    size: 3,
   },
 ];
 
@@ -90,7 +60,7 @@ const configMobilenet = {
   topk: 3,
   learningRate: 0.0001,
   hiddenUnits: 100,
-  epochs: 20,
+  epochs: 80,
   numClasses: countLabels(trainingObject),
   batchSize: 0.4,
 };
