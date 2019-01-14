@@ -1,21 +1,21 @@
 # Catalyser
 
 ## First search
-I search for tensor flow on youtube and watch the first [video, Tensorflow in 5 minutes](https://www.youtube.com/watch?v=2FmcHiLCwTU)
-You have to give your program a learning curve, determining how fast it will improve.
+I search for tensor flow on youtube and watch the first video, [Tensorflow in 5 minutes](https://www.youtube.com/watch?v=2FmcHiLCwTU).  
+You have to give your program a learning curve, determining how fast it will improve.  
 I stop the video because tensorflow in 5 minutes is a bad idea.
 
 ## Deep learning intro
 I start watching [Deep learning, chapter 1](https://www.youtube.com/watch?v=aircAruvnKk) to get a grasp on basic machine learning.  
-To detect a handwritten number it splits a 28x28 picture to neurons.
+To detect a handwritten number it splits a 28x28 picture in to neurons.
 Each layer breaks down the solution in a chance from 0 to 1. The final number with the highest chance gets chosen.  
 
 You choose a region and give the region weights and the borders a negative weight. Then to get that data between a value of 0 and 1 you push it into a sigmoid.  
 A mathemetical basis of linear algebra is useful because it works a lot with matrices.
 
 ## AI Javascript
-Tensorflow for js exists for only 5 months. You can already do quite some exciting stuff. I watched the [video, AI JavaScript Rocks](https://www.youtube.com/watch?v=TjQmZeyIiTk).  
-They have a website where you can see alll websites that use [AI with javascript](https://aijs.rocks/).
+Tensorflow for js exists for only 5 months. You can already do quite some exciting stuff. I watched the video, [AI JavaScript Rocks](https://www.youtube.com/watch?v=TjQmZeyIiTk).  
+They have a website where you can see all the websites that use [AI with javascript](https://aijs.rocks/).
 
 ## Llama detector
 I found a [llama detector](https://aijs.rocks/inspire/llama-vision/) on the aijs.rocks website. This made me question if I could make this for cats. Seems the machine learning has already been done by [MobileNet](https://github.com/tensorflow/tfjs-models/tree/master/mobilenet). It's a library that excels at recognizing images. When you scan an image, it returns an array of the 3 most feasible results. 
@@ -63,7 +63,7 @@ I decide to jump straight to ML5, another higher level library on top of tensorf
 I have a basic idea of what I want to do and start right away to implement it.  
 I'm going to retrain a pre-trained model using the ml5 library and the MobileNet models.
 
-[Ml5 Training](https://ml5js.org/docs/training-introduction) explains that you have to use the featureExtractor to use your own images. I collect a dataset with cat tails from google and get started. I sort my data into training and test data, and I decide to use the direction of the tails and the amount of curl as parameters. i start off with about 5 images of a tail standing up, 4 images of a curled tail standing up etc. It are images of a tail only and cats with tails.
+[ML5 Training](https://ml5js.org/docs/training-introduction) explains that you have to use the featureExtractor to use your own images. I collect a dataset with cat tails from google and get started. I sort my data into training and test data, and I decide to use the direction of the tails and the amount of curl as parameters. i start off with about 5 images of a tail standing up, 4 images of a curled tail standing up etc. It are images of a tail only and cats with tails.
 
 To read your own image in your first have to load it in your html page. I didn't feel like writing 40 img elements so I wrote a javascript function which reads an object and inserts all the training data based on the name.
 
@@ -97,9 +97,9 @@ const insertAllImagesIntoRoot = (url, size, render = true) => {
 }
 ```
 
-It seems creating the element is enough so I'll only add the test data to the HTMl so we can compare it quickly.
+It seems creating the element is enough so I'll only add the test data to the HTML so we can compare it quickly.
 
-After all of my images are an HTML element I have to add them to my classifier. I can add all images of a set at once, but have to wait untill I can add another set. This function loops over my trainingData array.
+After all of my images are made into an HTML element, I have to add them to my classifier. I have to insert them 1 by 1 so I split them up. This function loops over my trainingData array.
 ```js
 const addAllImagesToClassifier = async () => {
   await trainingData.forEach( async (data, i) => {
@@ -147,7 +147,7 @@ It seems to just give everything the label 'Tail Up'. Coincidentally this is als
 
 Okay, I've found the problem. The documentation clearly says it only distinguishes between 2 sets of images. Too bad.
 
-I'm tring to get it to work with my webcam. It's working on localhost, but when I dpeloy it on netlify and open it in chrome, it doesn't ask for webcam permission. On firefox it does, but it doesn't call the draw function.
+I'm trying to get it to work with my webcam. It's working on localhost, but when I dpeloy it on netlify and open it in chrome, it doesn't ask for webcam permission. On firefox it does, but it doesn't call the draw function.
 
 I've found a workaround for the number of sets I can train in [this open github issue](https://github.com/ml5js/ml5-library/issues/164).
 
@@ -165,6 +165,6 @@ The data you put into your app is very important. That's why I'm going to refact
 
 I've got a training database of 50 cat images. I think that's a good start.
 
-> TODO
-> Loading Bar behind the title
-> Save and load models
+> TODO  
+> Loading Bar behind the title  
+> Save and load models  
