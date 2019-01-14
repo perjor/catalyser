@@ -7,11 +7,19 @@
     <title>ML5</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://unpkg.com/ml5@0.1.3/dist/ml5.min.js"></script>
+    <link rel="stylesheet" href="./main.css">
   </head>
 
   <body>
 
-    <div id="root"></div>
+    <div id="root">
+      <h1>Catalyser: <span id="catalyser-info">Loading images into the dom</span></h1>
+      <button class="btn btn-disabled" id="testingButton" onclick="startTesting()" disabled>Click to start the test</button>
+      <button class="btn btn-disabled" id="uploadButton" onclick="document.getElementById('uploadTail').click();"
+        disabled>Click to upload your own
+        image of a cat tail</button>
+      <input type="file" name="tail" id="uploadTail" style='visibility: hidden;' onchange="startUpload(this)">
+    </div>
     <script src="./index.js"></script>
   </body>
 
