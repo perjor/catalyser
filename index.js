@@ -151,7 +151,7 @@ function startWebcam() {
 
   const maxWidth = '640px';
   const maxHeight = '480px';
-  const idealWidth = window.innerWidth - 20px;
+  const idealWidth = window.innerWidth - 20;
   const idealHeight = window.innerHeight;
 
   const constraints = {
