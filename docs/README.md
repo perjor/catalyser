@@ -146,3 +146,5 @@ After some testing the results weren't what I wanted. Since in machine learning 
 It seems to just give everything the label 'Tail Up'. Coincidentally this is also the first object in my training data array. Putting 'Tail Flat' at the top confirms my suspicion and labels everything as so. Seems there's a problem with my code. Let's continue watching [The Coding Train](https://www.youtube.com/watch?v=D9BoBSkLvFo&list=PLRqwX-V7Uu6YPSwT06y_AEYTqIwbeam3y&index=3).
 
 Okay, I've found the problem. The documentation clearly says it only distinguishes between 2 sets of images. Too bad.
+
+I'm tring to get it to work with my webcam. It's working on localhost, but when I dpeloy it on netlify and open it in chrome, it doesn't ask for webcam permission. On firefox it does, but it doesn't call the draw function.

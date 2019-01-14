@@ -143,9 +143,12 @@ function startTesting() {
 
 function startWebcam() {
   if (webcamVideo.style.display === 'inline-block') {
+    console.log('Closed webcam');
+    
     webcamActive = false;
     webcamVideo.style.display = 'none';
     webcamButton.innerHTML = 'Use the webcam';
+    infoBox.innerHTML = 'Closed the webcam';
     const track = webcamVideo.srcObject.getTracks()[0];
     track.stop();
     return false;
@@ -171,6 +174,8 @@ function startWebcam() {
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ audio: false, video: constraints })
     .then(stream => {
+    console.log('Opened webcam');
+
       webcamVideo.srcObject = stream;
       webcamVideo.style.display = 'inline-block';
       webcamActive = true;
@@ -180,6 +185,8 @@ function startWebcam() {
 }
 
 function takePictureWithWebcam() {
+  console.log('Taking picture');
+  
   classifier.classify((err, res) => {
     if (err) {
       console.error(err);
