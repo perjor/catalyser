@@ -151,7 +151,7 @@ function startWebcam() {
 
   const maxWidth = '640px';
   const maxHeight = '480px';
-  const idealWidth = window.innerWidth;
+  const idealWidth = window.innerWidth - 20px;
   const idealHeight = window.innerHeight;
 
   const constraints = {
@@ -246,8 +246,8 @@ const addAllImagesToClassifier = async () => {
   })
 }
 
-function main() {
-  initializeImages();
+const main = async () => {
+  await initializeImages();
   addAllImagesToClassifier();
 }
 
