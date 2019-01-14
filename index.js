@@ -1,6 +1,7 @@
 // HTML Elements
 const root = document.getElementById('root');
 const infoBox = document.getElementById('catalyser-info');
+const statusBox = document.getElementById('catalyser-status');
 const testingButton = document.getElementById('testingButton');
 const uploadButton = document.getElementById('uploadButton');
 const webcamButton = document.getElementById('webcamButton');
@@ -93,7 +94,7 @@ const insertImageSetIntoTheDom = async (url, size, render = true) => {
         root.appendChild(div);
       }
       img.addEventListener('load', (e) => {
-        console.log(`Inserted ${url}${i}`);
+        statusBox.innerHTML = `Inserted ${url}${i}`;
         resolve('done');
       })
       array.push(img);
@@ -117,7 +118,7 @@ const insertMultipleSetsIntoTheDom = async (dataObject, folder = '/', render = t
 // This adds a set of images to the classifier and calls the startTraining when done
 const addSetToClassifier = async (array, label, cb) => {
   console.log(`Adding ${array.length}x ${label} to classifier`);
-  
+  statusBox.innerHTML = '';
   array.forEach((image, i) => {
     if (array.length - 1 !== i) {
       classifier.addImage(image, label);
@@ -129,8 +130,8 @@ const addSetToClassifier = async (array, label, cb) => {
 
 // This trains the classifier
 const startTraining = async () => {
-  infoBox.innerHTML = 'Training the Machine Learning Algorithm..';
-  const res = await classifier.train((lossRate) => {console.log(lossRate);
+  infoBox.innerHTML = 'Training the Machine Learning Algorithm: ';
+  const res = await classifier.train((lossRate) => {statusBox.innerHTML = lossRate;
   });
   activateButtons();
 }
@@ -149,13 +150,14 @@ const startTesting = async () => {
   // Add Test Data to the DOM
   infoBox.innerHTML = 'Loading in test data..';
   const testingData = await insertMultipleSetsIntoTheDom(testingObject, 'testing/');
-
+  
   // Test the Data
   infoBox.innerHTML = 'Performing the tests..';
-    testingData.forEach( (imageSet, i) => {
-      testAllImagesInASet(imageSet, testingObject[i]);
-    });
+  testingData.forEach( (imageSet, i) => {
+    testAllImagesInASet(imageSet, testingObject[i]);
+  });
   infoBox.innerHTML = 'Done testing!';
+  statusBox.innerHTML = '';
   testingButton.remove();
 }
 
@@ -232,7 +234,6 @@ function startUpload(file) {
       if (err) {
         console.error(err);
       } else {
-        console.log(`Image uploaded => ${res}`);
         infoBox.innerHTML = res;
       }
     });
@@ -247,7 +248,6 @@ const testAllImagesInASet = async (array, testingObject) => {
       if (err) {
         console.error(err);
       } else {
-        console.log(`${testingObject.label} => ${res}`);
         const imgDiv = document.getElementById(`testing/${testingObject.name}${i+1}`);
         
         const result = document.createElement("span");
@@ -259,14 +259,14 @@ const testAllImagesInASet = async (array, testingObject) => {
 }
 
 const initializeImages = async () => {
-  infoBox.innerHTML = 'Loading Training Images into the DOM..';
+  infoBox.innerHTML = 'Loading Training Images into the DOM: ';
   // Add Training Data
   trainingData = await insertMultipleSetsIntoTheDom(trainingObject, 'training/', false);
 }
 
 // This one loops the data object and adds them 1 by 1 to the image classifier
 const addAllImageSetsToClassifier = async () => {
-  infoBox.innerHTML = 'Loading Training Images into the Machine Learning API..';
+  infoBox.innerHTML = 'Loading Training Images into the Machine Learning API.. ';
   await trainingData.forEach( async (data, i) => {
     if (trainingData.length - 1 !== i) {
       await addSetToClassifier(data, trainingObject[i].label);
