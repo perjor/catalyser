@@ -22,12 +22,12 @@ const trainingObject = [
   {
     name: 'tailFlat',
     label: 'Tail Flat',
-    size: 19,
+    size: 21,
   },
   {
     name: 'tailBody',
     label: 'Tail Body',
-    size: 4,
+    size: 13,
   },
 ];
 
@@ -35,14 +35,19 @@ const trainingObject = [
 const testingObject = [
  
   {
-    name: 'testTailUp',
+    name: 'tailUp',
     label: 'Tail Up',
     size: 4,
   },
   {
-    name: 'testTailFlat',
+    name: 'tailFlat',
     label: 'Tail Flat',
-    size: 3,
+    size: 4,
+  },
+  {
+    name: 'tailBody',
+    label: 'Tail Body',
+    size: 4,
   },
 ];
 
@@ -61,7 +66,7 @@ const configMobilenet = {
   topk: 3,
   learningRate: 0.0001,
   hiddenUnits: 100,
-  epochs: 80,
+  epochs: 120,
   numClasses: countLabels(trainingObject),
   batchSize: 0.4,
 };
@@ -166,7 +171,9 @@ function startWebcam() {
     closeWebcam();
     return false;
   }
-  webcamButton.innerHTML = 'Stop the webcam';
+  webcamButton.innerHTML = 'Stop the webcam';  
+  imageUploaded.src = '';
+  imageUploaded.style.display = 'none';
 
   const idealWidth = window.innerWidth - 20;
   const idealHeight = window.innerHeight;
@@ -208,9 +215,9 @@ function closeWebcam() {
   webcamActive = false;
   webcamVideo.style.display = 'none';
   webcamButton.innerHTML = 'Use the webcam';
-  infoBox.innerHTML = 'Closed the webcam';
   const track = webcamVideo.srcObject.getTracks()[0];
   track.stop();
+  infoBox.innerHTML = 'Closed the webcam';
 }
 
 function takePictureWithWebcam() {
@@ -227,7 +234,7 @@ function startUpload(file) {
   uploadButton.innerHTML = 'Processing Image';
   const reader = new FileReader();
   reader.onload = (evt) => {
-    uploadButton.innerHTML = 'Upload a new image';    
+    uploadButton.innerHTML = 'Upload a new image';
     imageUploaded.src = evt.target.result;
     imageUploaded.style.display = 'inline-block';
     classifier.classify(imageUploaded, (err, res) => {
