@@ -22,6 +22,13 @@ body {
   height: 480px;
   background-color: #000;
 }
+@media (max-width: 800px) {
+  #webcamVideo {
+    width: 90vw;
+    height: 90vh;
+    background-color: #000;
+  }
+}
 
 .tail {
   max-width: 200px;
