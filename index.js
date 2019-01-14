@@ -1,4 +1,14 @@
-let features = ml5.featureExtractor('MobileNet');
+let features = ml5.featureExtractor('MobileNet', {   
+  version: 1,
+  alpha: 0,
+  topk: 3,
+  learningRate: 0.0001,
+  hiddenUnits: 100,
+  epochs: 100,
+  numClasses: 2,
+  batchSize: 0.4,
+});
+
 
 const root = document.getElementById('root');
 const infoBox = document.getElementById('catalyser-info');
@@ -6,6 +16,7 @@ const testingButton = document.getElementById('testingButton');
 const uploadButton = document.getElementById('uploadButton');
 const webcamButton = document.getElementById('webcamButton');
 const webcamVideo = document.getElementById('webcamVideo');
+const imageUploaded = document.getElementById('imageUploaded');
 
 let webcamActive = false;
 
@@ -20,7 +31,7 @@ const trainingObject = [
   },
   {
     name: 'tailUpCurled',
-    label: 'Tail Up',
+    label: 'Tail Up Curled',
     size: 4,
   },
   {
@@ -30,20 +41,31 @@ const trainingObject = [
   },
   {
     name: 'tailFlatCurled',
-    label: 'Tail Flat',
+    label: 'Tail Flat Curled',
     size: 4,
   },
-  // {
-  //   name: 'tailPuffy',
-  //   label: 'Tail Puffy',
-  //   size: 3,
-  // },
+  {
+    name: 'tailPuffy',
+    label: 'Tail Puffy',
+    size: 3,
+  },
   // {
   //   name: 'tailBody',
   //   label: 'Tail Body',
   //   size: 1,
   // },
 ];
+
+function countLabels(array) {
+  const labels = new Set([]);
+  array.forEach(arr => {
+    labels.add(arr.label)
+  })
+  return labels.size;
+}
+
+features.numClasses = countLabels(trainingObject);
+
 
 const testingData = [];
 const testingObject = [
@@ -55,7 +77,7 @@ const testingObject = [
   },
   {
     name: 'testTailUpCurled',
-    label: 'Tail Up',
+    label: 'Tail Up Curled',
     size: 2,
   },
   {
@@ -65,7 +87,7 @@ const testingObject = [
   },
   {
     name: 'testTailFlatCurled',
-    label: 'Tail Flat',
+    label: 'Tail Flat Curled',
     size: 1,
   },
   {
@@ -207,22 +229,21 @@ function takePictureWithWebcam() {
 
 function startUpload(file) {
   uploadButton.innerHTML = 'Processing Image';
-  const img = document.createElement("img");
-  console.dir(file);
   const reader = new FileReader();
   reader.onload = (evt) => {
-    console.log(evt.target.result);
-    
-    img.src = evt.target.result;
-    classifier.classify(img, (err, res) => {
+    uploadButton.innerHTML = 'Upload a new image';    
+    imageUploaded.src = evt.target.result;
+    imageUploaded.style.display = 'inline-block';
+    classifier.classify(imageUploaded, (err, res) => {
       if (err) {
         console.error(err);
       } else {
-        console.log(res);
+        console.log(`Image uploaded => ${res}`);
+        infoBox.innerHTML = res;
       }
     });
   }
-  reader.readAsText(file.files[0]);
+  reader.readAsDataURL(file.files[0]);
 }
 
 const testAllImages = async (array, testingObject) => {

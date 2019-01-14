@@ -28,6 +28,14 @@ body {
   height: 480px; */
   background-color: #000;
 }
+#imageUploaded {
+  display: none;
+  width: auto;
+  height: auto;
+  max-width: 640px;
+  max-height: 480px;
+  background-color: #000;
+}
 /* @media (max-width: 800px) {
   .webcamContainer {
     width: 90vw;

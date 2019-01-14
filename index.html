@@ -22,10 +22,16 @@
           <video autoplay="true" id="webcamVideo"></video>
         </div>
       </div>
-      <button class="btn btn-disabled" id="uploadButton" onclick="document.getElementById('uploadTail').click();"
-        disabled>Click to upload your own
-        image of a cat tail</button>
-      <input type="file" name="tail" id="uploadTail" style='visibility: hidden;' onchange="startUpload(this)">
+      <div class="buttonContainer">
+        <div class="webcamContainer">
+          <button class="btn btn-disabled" id="uploadButton" onclick="document.getElementById('uploadTail').click();"
+            disabled>Click to upload your own
+            image of a cat tail</button>
+          <input type="file" name="tail" id="uploadTail" style='visibility: hidden;' onchange="startUpload(this)">
+          <img id="imageUploaded"></img>
+        </div>
+      </div>
+
     </div>
     <script src="./index.js"></script>
   </body>
