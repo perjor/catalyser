@@ -222,15 +222,15 @@ const testAllImages = async (array, testingObject) => {
   });
 }
 
-function initializeImages() {
+const initializeImages = async () => {
   infoBox.innerHTML = 'Loading Test Images into the Machine Learning API';
   // Add Training Data
-  trainingObject.forEach(data => {
+  await trainingObject.forEach(data => {
     trainingData.push(insertAllImagesIntoRoot(`training/${data.name}`, data.size, false));
   })
 
   // Add Test Data
-  testingObject.forEach(data => {
+  await testingObject.forEach(data => {
     testingData.push(insertAllImagesIntoRoot(`testing/${data.name}`, data.size));
   })
 }
