@@ -149,16 +149,21 @@ function startWebcam() {
   }
   webcamButton.innerHTML = 'Stop the webcam';
 
-  const maxWidth = 640px;
-  const maxHeight = 480px;
+  const maxWidth = '640px';
+  const maxHeight = '480px';
   const idealWidth = window.innerWidth;
   const idealHeight = window.innerHeight;
 
   const constraints = {
-    width: {ideal: maxWiidealWidthdth, max: maxWidth},
-    height: {ideal: idealHeight, max: maxHeight},
+    width: {ideal: idealWidth},
+    height: {ideal: idealHeight},
     facingMode: 'environment', // Rear-facing camera if available
   };
+
+  // Need to set dimensions explicitly on the video element for tensorflow
+  // (https://github.com/tensorflow/tfjs/issues/322)
+  webcamVideo.width = idealWidth;
+  webcamVideo.height = idealHeight;
 
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: constraints })
