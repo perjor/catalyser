@@ -11,7 +11,7 @@ const imageUploaded = document.getElementById('imageUploaded');
 let webcamActive = false;
 
 // Training Data
-const trainingData = [];
+let trainingData = [];
 const trainingObject = [
   {
     name: 'tailUp',
@@ -38,15 +38,14 @@ const trainingObject = [
     label: 'Tail Puffy',
     size: 3,
   },
-  // {
-  //   name: 'tailBody',
-  //   label: 'Tail Body',
-  //   size: 1,
-  // },
+  {
+    name: 'tailBody',
+    label: 'Tail Body',
+    size: 1,
+  },
 ];
 
 // Testing Data
-const testingData = [];
 const testingObject = [
  
   {
@@ -85,20 +84,22 @@ function countLabels(array) {
   return labels.size;
 }
 
-let features = ml5.featureExtractor('MobileNet', {   
+const configMobilenet = {   
   version: 1,
   alpha: 0,
   topk: 3,
   learningRate: 0.0001,
   hiddenUnits: 100,
-  epochs: 100,
+  epochs: 20,
   numClasses: countLabels(trainingObject),
   batchSize: 0.4,
-});
-const classifier = features.classification();
+};
+
+let features;
+let classifier;
 
 // Adds all images to the DOM and returns an array
-const insertAllImagesIntoRoot = (url, size, render = true) => {
+const insertImageSetIntoTheDom = async (url, size, render = true) => {
   if (render) {
     let title = document.createElement("h2")
     title.innerHTML = url;
@@ -107,30 +108,49 @@ const insertAllImagesIntoRoot = (url, size, render = true) => {
   
   const array = [];
   // Loop through all images and add to Array
-  for (let i = 1; i <= size; i++) {
-    let img = document.createElement("img")
-    img.src = `./images/${url}${i}.jpg`;
-    img.className = 'tail';
-    // if render is true, render the images on the HTML
-    if (render) {
-      const div = document.createElement("div");
-      div.id = `${url}${i}`;
-      div.className = 'tailContainer'
-      div.appendChild(img);
-      root.appendChild(div);
+  await new Promise((resolve, reject) => {
+    for (let i = 1; i <= size; i++) {
+      let img = document.createElement("img")
+      img.src = `./images/${url}${i}.jpg`;
+      img.className = 'tail';
+      img.async = true;
+      // if render is true, render the images on the HTML
+      if (render) {
+        const div = document.createElement("div");
+        div.id = `${url}${i}`;
+        div.className = 'tailContainer'
+        div.appendChild(img);
+        root.appendChild(div);
+      }
+      if (i === size) {
+        img.addEventListener('load', (e) => {
+          resolve('done');
+        })
+      };
+      array.push(img);
     }
-    array.push(img);
-  }
+  });
   // The array returned is used by the image classifier
   return array;
 }
 
-// This adds a set of images to the classifier and calls the trainClassifier when done
-const addSetToClassifier = async (arr, label, cb) => {
-  console.log(`Adding ${arr.length}x ${label} to classifier`);
+const insertMultipleSetsIntoTheDom = async (dataObject, folder = '/', render = true) => {
+  const array = [];
+
+  for (const set of dataObject) {
+    const setElement = await insertImageSetIntoTheDom(`${folder}${set.name}`, set.size, render);
+    array.push(setElement);
+  }
+
+  return array;
+}
+
+// This adds a set of images to the classifier and calls the startTraining when done
+const addSetToClassifier = async (array, label, cb) => {
+  console.log(`Adding ${array.length}x ${label} to classifier`);
   
-  arr.forEach((image, i) => {
-    if (arr.length - 1 !== i) {
+  array.forEach((image, i) => {
+    if (array.length - 1 !== i) {
       classifier.addImage(image, label);
     } else {
       classifier.addImage(image, label, cb);
@@ -138,16 +158,16 @@ const addSetToClassifier = async (arr, label, cb) => {
   });
 }
 
-// This trains the classifier and tests all the images when done
-const trainClassifier = async () => {
-  infoBox.innerHTML = 'Training the Machine Learning Algorithm';
+// This trains the classifier
+const startTraining = async () => {
+  infoBox.innerHTML = 'Training the Machine Learning Algorithm..';
   const res = await classifier.train((lossRate) => {console.log(lossRate);
   });
   activateButtons();
 }
 
 function activateButtons() {
-  infoBox.innerHTML = 'Done!';
+  infoBox.innerHTML = 'Done training!';
   testingButton.removeAttribute('disabled');
   testingButton.className = 'btn'; 
   uploadButton.removeAttribute('disabled');
@@ -156,10 +176,17 @@ function activateButtons() {
   webcamButton.className = 'btn';
 }
 
-function startTesting() {
-  testingData.forEach((data, i) => {
-    testAllImages(data, testingObject[i]);
-  });
+const startTesting = async () => {
+  // Add Test Data to the DOM
+  infoBox.innerHTML = 'Loading in test data..';
+  const testingData = await insertMultipleSetsIntoTheDom(testingObject, 'testing/');
+
+  // Test the Data
+  infoBox.innerHTML = 'Performing the tests..';
+    testingData.forEach( (imageSet, i) => {
+      testAllImagesInASet(imageSet, testingObject[i]);
+    });
+  infoBox.innerHTML = 'Done testing!';
   testingButton.remove();
 }
 
@@ -244,7 +271,8 @@ function startUpload(file) {
   reader.readAsDataURL(file.files[0]);
 }
 
-const testAllImages = async (array, testingObject) => {
+const testAllImagesInASet = async (array, testingObject) => {
+  // Test the test data
   await array.forEach((image, i) => {
     classifier.classify(image, (err, res) => {
       if (err) {
@@ -262,32 +290,28 @@ const testAllImages = async (array, testingObject) => {
 }
 
 const initializeImages = async () => {
-  infoBox.innerHTML = 'Loading Test Images into the Machine Learning API';
+  infoBox.innerHTML = 'Loading Training Images into the DOM..';
   // Add Training Data
-  await trainingObject.forEach(data => {
-    trainingData.push(insertAllImagesIntoRoot(`training/${data.name}`, data.size, false));
-  })
-
-  // Add Test Data
-  await testingObject.forEach(data => {
-    testingData.push(insertAllImagesIntoRoot(`testing/${data.name}`, data.size));
-  })
+  trainingData = await insertMultipleSetsIntoTheDom(trainingObject, 'training/', false);
 }
 
 // This one loops the data object and adds them 1 by 1 to the image classifier
-const addAllImagesToClassifier = async () => {
+const addAllImageSetsToClassifier = async () => {
+  infoBox.innerHTML = 'Loading Training Images into the Machine Learning API..';
   await trainingData.forEach( async (data, i) => {
     if (trainingData.length - 1 !== i) {
       await addSetToClassifier(data, trainingObject[i].label);
     } else {
-      await addSetToClassifier(data, trainingObject[i].label, trainClassifier);
+      await addSetToClassifier(data, trainingObject[i].label, startTraining);
     }
   })
 }
 
 const main = async () => {
   await initializeImages();
-  addAllImagesToClassifier();
+  features = ml5.featureExtractor('MobileNet', configMobilenet);
+  classifier = features.classification();
+  addAllImageSetsToClassifier();
 }
 
 main();
