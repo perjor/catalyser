@@ -9,9 +9,16 @@ body {
 }
 
 .tailContainer {
-  display: inline;
+  display: inline-flex;
+  flex-direction: column;
   margin: 2px 10px 0 0;
 }
+
+.tailContainer > span {
+  margin-top: 5px;
+  text-align: center;
+}
+
 .buttonContainer {
   display: inline;
 }
