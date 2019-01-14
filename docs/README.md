@@ -1,10 +1,8 @@
 # Catalyser
 
 ## First search
-I search tensor flow on youtube and watch the first [video, Tensorflow in 5 minutes](https://www.youtube.com/watch?v=2FmcHiLCwTU)
-
+I search for tensor flow on youtube and watch the first [video, Tensorflow in 5 minutes](https://www.youtube.com/watch?v=2FmcHiLCwTU)
 You have to give your program a learning curve, determining how fast it will improve.
-
 I stop the video because tensorflow in 5 minutes is a bad idea.
 
 ## Deep learning intro
@@ -36,10 +34,9 @@ You can test the first iteration here [Catalyser v0.0.1](https://catalyser.jordy
 ## Cat basics
 I've searched some articles to get a quick grasp at the meaning of the Cat's tail.  
 Google -> 'Cat tail cues'
-https://www.humanesociety.org/resources/cat-chat-understanding-feline-language
-This article seems to mention a whole bunch of cues.
-https://www.adventurecats.org/pawsome-reads/read-cats-body-language/
-This one has some nice images
+[This article seems to mention a whole bunch of cues](https://www.humanesociety.org/resources/cat-chat-understanding-feline-language).
+[This one has some nice images](https://www.adventurecats.org/pawsome-reads/read-cats-body-language/).
+
 
 ## Tensorflow
 ### Intro
@@ -56,3 +53,96 @@ In the second video he went over the basic block of tensorflow, a tensor. A tens
 ```js
 tf.tensor([2, 2, 2, 2, 3, 4], [1, 2, 3]).print();
 ```
+
+### Rest of the playlist
+I choose to continue watching his whole playlist with examples and more info about the layer API and how to train your own model.
+
+## My own app
+I decide to jump straight to ML5, another higher level library on top of tensorflow. I watch [The Coding Train](https://www.youtube.com/watch?v=jmznx0Q1fP0) his introduction video, as well as his [Image Classification with mobile net](https://www.youtube.com/watch?v=yNkAuWz5lnY&list=PLRqwX-V7Uu6YPSwT06y_AEYTqIwbeam3y&index=2). I start watching his [Webcam Image Classification](https://www.youtube.com/watch?v=D9BoBSkLvFo&list=PLRqwX-V7Uu6YPSwT06y_AEYTqIwbeam3y&index=3) but halfway through I feel like I can start on my own.
+
+I have a basic idea of what I want to do and start right away to implement it.  
+I'm going to retrain a pre-trained model using the ml5 library and the MobileNet models.
+
+[Ml5 Training](https://ml5js.org/docs/training-introduction) explains that you have to use the featureExtractor to use your own images. I collect a dataset with cat tails from google and get started. I sort my data into training and test data, and I decide to use the direction of the tails and the amount of curl as parameters. i start off with about 5 images of a tail standing up, 4 images of a curled tail standing up etc. It are images of a tail only and cats with tails.
+
+To read your own image in your first have to load it in your html page. I didn't feel like writing 40 img elements so I wrote a javascript function which reads an object and inserts all the training data based on the name.
+
+```js
+// Adds all images to the DOM and returns an array
+const insertAllImagesIntoRoot = (url, size, render = true) => {
+  if (render) {
+    let title = document.createElement("h2")
+    title.innerHTML = url;
+    root.appendChild(title);
+  }
+  
+  const array = [];
+  // Loop through all images and add to Array
+  for (let i = 1; i <= size; i++) {
+    let img = document.createElement("img")
+    img.src = `./images/${url}${i}.jpg`;
+    img.className = 'tail';
+    // if render is true, render the images on the HTML
+    if (render) {
+      const div = document.createElement("div");
+      div.id = `${url}${i}`;
+      div.className = 'tailContainer'
+      div.appendChild(img);
+      root.appendChild(div);
+    }
+    array.push(img);
+  }
+  // The array returned is used by the image classifier
+  return array;
+}
+```
+
+It seems creating the element is enough so I'll only add the test data to the HTMl so we can compare it quickly.
+
+After all of my images are an HTML element I have to add them to my classifier. I can add all images of a set at once, but have to wait untill I can add another set. This function loops over my trainingData array.
+```js
+const addAllImagesToClassifier = async () => {
+  await trainingData.forEach( async (data, i) => {
+    if (trainingData.length - 1 !== i) {
+      await addSetToClassifier(data, trainingObject[i].label);
+    } else {
+      await addSetToClassifier(data, trainingObject[i].label, trainClassifier);
+    }
+  })
+}
+```
+When the last one is done it runs the callback.  
+The image classifier also just loops 1 set of images with the same label.
+```js
+// This adds a set of images to the classifier and calls the imagesAdded when done
+const addSetToClassifier = async (arr, label, cb) => {
+  console.log(`Adding ${arr.length}x ${label} to classifier`);
+  
+  arr.forEach((image, i) => {
+    if (arr.length - 1 !== i) {
+      classifier.addImage(image, label);
+    } else {
+      classifier.addImage(image, label, cb);
+    }
+  });
+}
+```
+
+When it's done it will call the trainClassifier.
+
+To make a small interface, when the classifier is done training it activates some buttons. These buttons allow you to test the test data that's present on the screen.
+```js
+function startTesting() {
+  testingData.forEach((data, i) => {
+    testAllImages(data, testingObject[i]);
+  });
+  testingButton.remove();
+}
+```
+The function just loops our testingData array.
+
+After some testing the results weren't what I wanted. Since in machine learning your output is purely decided by your input, I decided to add more training data and cut the images up to only contain tails.
+
+It seems to just give everything the label 'Tail Up'. Coincidentally this is also the first object in my training data array. Putting 'Tail Flat' at the top confirms my suspicion and labels everything as so. Seems there's a problem with my code. Let's continue watching [The Coding Train](https://www.youtube.com/watch?v=D9BoBSkLvFo&list=PLRqwX-V7Uu6YPSwT06y_AEYTqIwbeam3y&index=3).
+
+Okay, I've found the problem. The documentation clearly says it only distinguishes between 2 sets of images. Too bad.

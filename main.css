@@ -7,6 +7,21 @@ body {
   display: inline;
   margin: 2px 10px 0 0;
 }
+.buttonContainer {
+  display: inline;
+}
+.webcamContainer {
+  display: inline-flex;
+  width: 640px;
+  flex-direction: column;
+}
+
+#webcamVideo {
+  display: none;
+  width: 640px;
+  height: 480px;
+  background-color: #000;
+}
 
 .tail {
   max-width: 200px;
@@ -20,6 +35,7 @@ body {
 }
 .btn {
   padding: 10px 20px;
+  margin: 5px 10px;
   background:  linear-gradient(to right, rgba(247,74,43,1) 0%, rgba(240,107,86,1) 33%, rgba(246,37,9,1) 62%, rgba(240,46,20,1) 88%, rgba(231,51,35,1) 100%);
   border: none;
   color: #000;
