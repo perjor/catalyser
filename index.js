@@ -172,7 +172,7 @@ function startWebcam() {
   .then(stream => {
   console.log('Opened webcam');
 
-    if ('srcObject' in video) {
+    if ('srcObject' in webcamVideo) {
       webcamVideo.srcObject = stream;
     } else {
       webcamVideo.src = window.URL.createObjectURL(stream);
