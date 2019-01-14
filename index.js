@@ -148,8 +148,20 @@ function startWebcam() {
     return false;
   }
   webcamButton.innerHTML = 'Stop the webcam';
+
+  const maxWidth = 640px;
+  const maxHeight = 480px;
+  const idealWidth = window.innerWidth;
+  const idealHeight = window.innerHeight;
+
+  const constraints = {
+    width: {ideal: maxWiidealWidthdth, max: maxWidth},
+    height: {ideal: idealHeight, max: maxHeight},
+    facingMode: 'environment', // Rear-facing camera if available
+  };
+
   if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({video: { facingMode: { exact: "environment" } }})
+    navigator.mediaDevices.getUserMedia({ video: constraints })
     .then(stream => {
       webcamVideo.srcObject = stream;
       webcamVideo.style.display = 'inline-block';

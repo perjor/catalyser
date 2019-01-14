@@ -12,17 +12,17 @@ body {
 }
 .webcamContainer {
   display: inline-flex;
-  width: 640px;
+  /* width: 640px; */
   flex-direction: column;
 }
 
 #webcamVideo {
   display: none;
-  width: 640px;
-  height: 480px;
+  /* width: 640px;
+  height: 480px; */
   background-color: #000;
 }
-@media (max-width: 800px) {
+/* @media (max-width: 800px) {
   .webcamContainer {
     width: 90vw;
     height: 90vh;
@@ -31,7 +31,7 @@ body {
     width: 90vw;
     height: 90vh;
   }
-}
+} */
 
 .tail {
   max-width: 200px;
