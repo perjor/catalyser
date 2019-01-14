@@ -7,6 +7,8 @@ const uploadButton = document.getElementById('uploadButton');
 const webcamButton = document.getElementById('webcamButton');
 const webcamVideo = document.getElementById('webcamVideo');
 
+let webcamActive = false;
+
 const classifier = features.classification(webcamVideo);
 
 const trainingData = [];
@@ -141,6 +143,7 @@ function startTesting() {
 
 function startWebcam() {
   if (webcamVideo.style.display === 'inline-block') {
+    webcamActive = false;
     webcamVideo.style.display = 'none';
     webcamButton.innerHTML = 'Use the webcam';
     const track = webcamVideo.srcObject.getTracks()[0];
@@ -166,10 +169,11 @@ function startWebcam() {
   webcamVideo.height = idealHeight;
 
   if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: constraints })
+    navigator.mediaDevices.getUserMedia({ audio: false, video: constraints })
     .then(stream => {
       webcamVideo.srcObject = stream;
       webcamVideo.style.display = 'inline-block';
+      webcamActive = true;
     })
     .catch(err => console.log("Webcam error!", err))
   }
@@ -254,7 +258,7 @@ const main = async () => {
 main();
 
 function draw() {
-  if (webcamVideo.style.display !== 'none') {
+  if (webcamVideo.style.display !== 'none' && webcamActive) {
     takePictureWithWebcam()
   }
 }
