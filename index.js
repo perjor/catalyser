@@ -99,7 +99,7 @@ const insertImageSetIntoTheDom = async (url, size, render = true) => {
         root.appendChild(div);
       }
       img.addEventListener('load', (e) => {
-        statusBox.innerHTML = `Inserted ${url}${i}`;
+        statusBox.innerHTML = `Inserting ${url}${i}`;
         resolve('done');
       })
       array.push(img);
