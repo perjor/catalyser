@@ -149,7 +149,7 @@ function startWebcam() {
   }
   webcamButton.innerHTML = 'Stop the webcam';
   if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({video: true})
+    navigator.mediaDevices.getUserMedia({video: { facingMode: { exact: "environment" } }})
     .then(stream => {
       webcamVideo.srcObject = stream;
       webcamVideo.style.display = 'inline-block';
