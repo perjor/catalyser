@@ -1,15 +1,4 @@
-let features = ml5.featureExtractor('MobileNet', {   
-  version: 1,
-  alpha: 0,
-  topk: 3,
-  learningRate: 0.0001,
-  hiddenUnits: 100,
-  epochs: 100,
-  numClasses: 2,
-  batchSize: 0.4,
-});
-
-
+// HTML Elements
 const root = document.getElementById('root');
 const infoBox = document.getElementById('catalyser-info');
 const testingButton = document.getElementById('testingButton');
@@ -18,10 +7,10 @@ const webcamButton = document.getElementById('webcamButton');
 const webcamVideo = document.getElementById('webcamVideo');
 const imageUploaded = document.getElementById('imageUploaded');
 
+// Global Variables
 let webcamActive = false;
 
-const classifier = features.classification(webcamVideo);
-
+// Training Data
 const trainingData = [];
 const trainingObject = [
   {
@@ -56,17 +45,7 @@ const trainingObject = [
   // },
 ];
 
-function countLabels(array) {
-  const labels = new Set([]);
-  array.forEach(arr => {
-    labels.add(arr.label)
-  })
-  return labels.size;
-}
-
-features.numClasses = countLabels(trainingObject);
-
-
+// Testing Data
 const testingData = [];
 const testingObject = [
  
@@ -96,6 +75,27 @@ const testingObject = [
     size: 2,
   },
 ];
+
+// Setup Mobilenet
+function countLabels(array) {
+  const labels = new Set([]);
+  array.forEach(arr => {
+    labels.add(arr.label)
+  })
+  return labels.size;
+}
+
+let features = ml5.featureExtractor('MobileNet', {   
+  version: 1,
+  alpha: 0,
+  topk: 3,
+  learningRate: 0.0001,
+  hiddenUnits: 100,
+  epochs: 100,
+  numClasses: countLabels(trainingObject),
+  batchSize: 0.4,
+});
+const classifier = features.classification();
 
 // Adds all images to the DOM and returns an array
 const insertAllImagesIntoRoot = (url, size, render = true) => {
@@ -216,9 +216,7 @@ function closeWebcam() {
 }
 
 function takePictureWithWebcam() {
-  console.log('Taking picture');
-  
-  classifier.classify((err, res) => {
+  classifier.classify(webcamVideo, (err, res) => {
     if (err) {
       console.error(err);
     } else {

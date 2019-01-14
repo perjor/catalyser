@@ -149,4 +149,4 @@ Okay, I've found the problem. The documentation clearly says it only distinguish
 
 I'm tring to get it to work with my webcam. It's working on localhost, but when I dpeloy it on netlify and open it in chrome, it doesn't ask for webcam permission. On firefox it does, but it doesn't call the draw function.
 
-I've found a workaround for the number pf sets I can train in [this open github issue](https://github.com/ml5js/ml5-library/issues/164).
+I've found a workaround for the number of sets I can train in [this open github issue](https://github.com/ml5js/ml5-library/issues/164).
