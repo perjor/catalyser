@@ -165,6 +165,8 @@ The data you put into your app is very important. That's why I'm going to refact
 
 I've got a training database of 50 cat images. I think that's a good start.
 
+I continue watching videos of The Coding Train. I now have 27 Cat Tail Up, 21 Cat Tail Flat / Down and 13 Cat Tail Body. I'm equalizing them all at 13 each and it's giving a lot better results then when I'm putting more of one in.
+
 > TODO  
 > Loading Bar behind the title  
 > Save and load models  

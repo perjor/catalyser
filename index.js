@@ -17,12 +17,12 @@ const trainingObject = [
   {
     name: 'tailUp',
     label: 'Tail Up',
-    size: 27,
+    size: 13, // 27
   },
   {
     name: 'tailFlat',
     label: 'Tail Flat',
-    size: 21,
+    size: 13, //21
   },
   {
     name: 'tailBody',
@@ -66,7 +66,7 @@ const configMobilenet = {
   topk: 3,
   learningRate: 0.0001,
   hiddenUnits: 100,
-  epochs: 120,
+  epochs: 40,
   numClasses: countLabels(trainingObject),
   batchSize: 0.4,
 };
