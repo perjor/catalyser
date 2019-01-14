@@ -173,9 +173,9 @@ function startWebcam() {
   console.log('Opened webcam');
 
     if ('srcObject' in video) {
-      video.srcObject = stream;
+      webcamVideo.srcObject = stream;
     } else {
-      video.src = window.URL.createObjectURL(stream);
+      webcamVideo.src = window.URL.createObjectURL(stream);
     }
     webcamVideo.style.display = 'inline-block';
     webcamActive = true;
