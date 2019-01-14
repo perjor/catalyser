@@ -23,10 +23,13 @@ body {
   background-color: #000;
 }
 @media (max-width: 800px) {
+  .webcamContainer {
+    width: 90vw;
+    height: 90vh;
+  }
   #webcamVideo {
     width: 90vw;
     height: 90vh;
-    background-color: #000;
   }
 }
 
