@@ -78,8 +78,8 @@ const insertImageSetIntoTheDom = async (url, size, render = true) => {
   
   const array = [];
   // Loop through all images and add to Array
-  await new Promise((resolve, reject) => {
-    for (let i = 1; i <= size; i++) {
+  for (let i = 1; i <= size; i++) {
+    await new Promise((resolve, reject) => {
       let img = document.createElement("img")
       img.src = `./images/${url}${i}.jpg`;
       img.className = 'tail';
@@ -92,14 +92,13 @@ const insertImageSetIntoTheDom = async (url, size, render = true) => {
         div.appendChild(img);
         root.appendChild(div);
       }
-      if (i === size) {
-        img.addEventListener('load', (e) => {
-          resolve('done');
-        })
-      };
+      img.addEventListener('load', (e) => {
+        console.log(`Inserted ${url}${i}`);
+        resolve('done');
+      })
       array.push(img);
-    }
-  });
+    });
+  }
   // The array returned is used by the image classifier
   return array;
 }

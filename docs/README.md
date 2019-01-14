@@ -167,6 +167,5 @@ I've got a training database of 50 cat images. I think that's a good start.
 
 > TODO
 > Loading Bar behind the title
-> Replace training data with full cats
 > Format Testing images
 > Save and load models
