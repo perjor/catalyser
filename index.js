@@ -7,6 +7,8 @@ const uploadButton = document.getElementById('uploadButton');
 const webcamButton = document.getElementById('webcamButton');
 const webcamVideo = document.getElementById('webcamVideo');
 const imageUploaded = document.getElementById('imageUploaded');
+const loadButton = document.getElementById('loadButton');
+const trainButton = document.getElementById('trainButton');
 
 // Global Variables
 let webcamActive = false;
@@ -66,7 +68,7 @@ const configMobilenet = {
   topk: 3,
   learningRate: 0.0001,
   hiddenUnits: 100,
-  epochs: 40,
+  epochs: 10,
   numClasses: countLabels(trainingObject),
   batchSize: 0.4,
 };
@@ -248,6 +250,10 @@ function startUpload(file) {
   reader.readAsDataURL(file.files[0]);
 }
 
+function saveModel() {
+  classifier.save();
+}
+
 const testAllImagesInASet = async (array, testingObject) => {
   // Test the test data
   await array.forEach((image, i) => {
@@ -264,6 +270,8 @@ const testAllImagesInASet = async (array, testingObject) => {
     });
   });
 }
+
+
 
 const initializeImages = async () => {
   infoBox.innerHTML = 'Loading Training Images into the DOM: ';
@@ -290,7 +298,20 @@ const main = async () => {
   addAllImageSetsToClassifier();
 }
 
-main();
+const loadModel = async () => {
+  features = ml5.featureExtractor('MobileNet', configMobilenet);
+  classifier = features.classification();
+  await classifier.load('model.json');
+  activateButtons();
+  loadButton.remove();
+  trainButton.remove();
+}
+
+function trainModel() {
+  main();
+  loadButton.remove();
+  trainButton.remove();
+}
 
 function draw() {
   if (webcamVideo.style.display !== 'none' && webcamActive) {

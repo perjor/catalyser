@@ -167,9 +167,11 @@ I've got a training database of 50 cat images. I think that's a good start.
 
 I continue watching videos of The Coding Train. I now have 27 Cat Tail Up, 21 Cat Tail Flat / Down and 13 Cat Tail Body. I'm equalizing them all at 13 each and it's giving a lot better results then when I'm putting more of one in.
 
+## GPU
+Since it still requires a lot of graphical processing power to train the model, I included the option to load in a model trained on my desktop, which is a bit more performant than my mobile phone.
+
 > TODO  
 > Loading Bar behind the title  
-> Save and load models  
 
 ---
 [Demo](https://streamable.com/i4bd5)  

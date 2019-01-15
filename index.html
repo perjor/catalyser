@@ -14,7 +14,9 @@
   <body>
 
     <div id="root">
-      <h1>Catalyser: <span id="catalyser-info">Loading images into the dom:</span> <span id="catalyser-status"></span></h1>
+      <h1>Catalyser: <span id="catalyser-info">The model takes 13 example pictures of each position.</span> <span id="catalyser-status"></span></h1>
+      <button class="btn" id="trainButton" onclick="trainModel()">Train the model</button>
+      <button class="btn" id="loadButton" onclick="loadModel()">Load the model</button> <br>
       <button class="btn btn-disabled" id="testingButton" onclick="startTesting()" disabled>Click to start the test</button>
       <div class="buttonContainer">
         <div class="webcamContainer">
@@ -31,7 +33,6 @@
           <img id="imageUploaded"></img>
         </div>
       </div>
-
     </div>
     <script src="./index.js"></script>
   </body>
