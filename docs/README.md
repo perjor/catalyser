@@ -201,5 +201,5 @@ Since it still requires a lot of graphical processing power to train the model, 
 
 ---
 [Demo](https://streamable.com/i4bd5)  
-[Website](https://catalyser.jordypereira.com/)  
+[Website](https://catalyser.jordypereira.be/)  
 [Twitter](https://twitter.com/_perjor)
